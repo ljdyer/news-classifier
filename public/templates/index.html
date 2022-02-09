@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>News classifier</title>
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Droid+Sans+Mono" rel="stylesheet">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<link href="/static/css/style.css" rel="stylesheet">
+		<script type="text/javascript" src="static/js/main.js"></script>
+	</head>
+
+	<body>
+		<div style="text-align:center">
+			<h1>News classifier</h1>
+		</div>
+		<!-- <div style="text-align:center">
+			<p>Checks are based on my understanding of the University of Wolverhampton's "Cite Them Right Harvard" style of referencing as outlined <a href="https://www.wlv.ac.uk/lib/skills-for-learning/referencing/" target="_blank">here</a>. See the <a href="https://github.com/ljdyer/reference-checker" target="_blank">documentation</a> for more details.</p>
+		</div> -->
+		<div style="text-align:center">
+			<p>
+				<span class="business category">business</span>
+				<span class="entertainment-arts category">entertainment-arts</span>
+				<span class="health category">health</span>
+				<span class="science-environment category">science-environment</span>
+				<span class="technology category">technology</span>
+			</p>
+		</div>
+		<div style="text-align:center">
+			<p id="num-warnings"></p>
+		</div>
+		<div style="text-align:center"><p id='issue-types'></p>
+		</div>
+		<div style="text-align:center">
+			<textarea style="height: 600px; max-width: 1000px; width: 100%" id="input-area"></textarea>
+		</div>
+		<div style="text-align:center">
+			<p>
+				<a href="https://github.com/ljdyer/news-classifier" target="_blank"><img src="static/img/github-logo.png"></img></a>
+				<!-- <a href="https://www.youtube.com/watch?v=xjoTKWqrL28" target="_blank"><img src="img/youtube-logo.png"></img></a> -->
+			</p>
+		</div>
+	</body>
+</html>

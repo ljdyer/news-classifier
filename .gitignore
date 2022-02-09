@@ -1,3 +1,5 @@
-venv/
-articles/
-__pycache__/
+/private/venv/
+/private/articles/
+/private/__pycache__/
+/public/venv/
+/public/__pycache__/

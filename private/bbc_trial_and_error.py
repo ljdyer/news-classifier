@@ -1,5 +1,5 @@
-from html_helper import page_exists, get_bs, get_all_text
-from file_helper import save_text_to_file
+from helper.html_helper import page_exists, get_bs, get_all_text
+from helper.file_helper import save_text_to_file
 import os
 
 URL_ROOT = "https://www.bbc.co.uk/news/"
@@ -18,7 +18,7 @@ CATEGORIES = [
 
 CATEGORY_COUNTS = {category: 0 for category in CATEGORIES}
 
-IDS = range(60029852, 60290065)
+IDS = range(60044994, 60290065)
 
 
 # ====================
@@ -51,19 +51,17 @@ def get_article_text(url: str) -> str:
     except Exception as e:
         return (False, f'{e} error while getting HTML!')
 
-    # Try to parse page to get headline and body text
+    # Get text from all <p> tags inside <article> tag
     try:
-        # Headline is a <b> tag inside a <font size="+2"> tag
         article = bs.findAll(name='article')
         article_children = article[0].findChildren("p")
         article_text = get_all_text(article_children)
         return (True, article_text)
-
     except Exception as e:
         return (False, f"{e} error while parsing!")
 
 
-
+# ====================
 if __name__ == "__main__":
 
     main()

@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 
 # ====================
 def page_exists(url: str) -> bool:
+    """Return True if a page exists at the given URL"""
 
     try:
         status_code = request.urlopen(url).getcode()
@@ -18,8 +19,12 @@ def page_exists(url: str) -> bool:
 def get_bs(url: str) -> BeautifulSoup:
     """Get BeautifulSoup object from URL"""
 
-    with request.urlopen(url) as response:
-        html = response.read()
+    try:
+        with request.urlopen(url) as response:
+            html = response.read()
+    except HTTPError:
+        print(f"Unable to open page: {url}")
+        quit()
     bs = BeautifulSoup(html, 'html.parser')
     return bs
 
@@ -45,3 +50,11 @@ def get_all_text(tag) -> str:
     """Get text from all tags contained in bs4 ResultSet"""
 
     return '\n\n'.join([t.text.strip() for t in tag])
+
+
+# ====================
+def get_all_link_urls(url: str) -> list:
+
+    bs = get_bs(url)
+    return [a['href'] for a in bs.find_all('a', href=True)]
+
