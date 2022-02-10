@@ -17,23 +17,25 @@ How to use:
    > python bbc_trial_and_error.py
 2. You can exit the program gracefully at any time by pressing Ctrl + C.
    The program will print a mesage to let you know which id it had checked up
-   to and will update ids_to_check.txt so that it can start off where it left off
-   in the next execution.
+   to and will update ids_to_check.json so that it can start off where it left
+   off in the next execution.
 3. Changes to CATEGORIES can be applied directly in the program.
 
 The process is as follows:
 1. Iterate through ids in range.
 2. Create the url that an article belonging to each category with the relevant id
-   would have such an article exists.
+   would have if such an article exists.
 3. If an article exists at the URL, get the text from it.
 4. If a file with the same name does not already exist, create it and inform
    the user that a new article was added by adding one to the counter for
    that category.
 """
 
-from helper.html_helper import page_exists, get_bs, get_bbc_article_text
+from helper.html_helper import get_bbc_article_text
 from helper.file_helper import save_text_to_file
 import os
+from os.path import isfile
+import json
 
 URL_ROOT = "https://www.bbc.co.uk/news/"
 SAVE_ROOT = "articles/"
@@ -44,12 +46,18 @@ CATEGORIES = [
     'technology',
     'entertainment-arts'
 ]
+JSON_PATH = 'ids_to_check.json'
+
+articles_added_counter = {
+    category: 0 for category in CATEGORIES + ['ALREADY SAVED']
+}
+
 
 # ====================
 def make_url(category: str, id: int) -> str:
     """Return a (possible) URL for an article with the category
     and id specified."""
-    
+
     return f"{URL_ROOT}{category}-{id}"
 
 
@@ -60,26 +68,42 @@ def make_file_path(category: str, id: int) -> str:
     return f"{SAVE_ROOT}{category}-{id}.txt"
 
 
-articles_added_counter = {category: 0 for category in CATEGORIES}
+# ====================
+def update_display():
+    """Update the display with the counters of articles added for each
+    category."""
 
-IDS = range(60044994, 60290065)
+    os.system('cls')
+    for category, count in articles_added_counter.items():
+        print(f'{category}: {count}')
 
 
 # ====================
 def main():
     try:
-        for id in IDS:
-            os.system('cls')
+        with open(JSON_PATH, 'r') as file:
+            ids = json.load(file)
+        id_range = range(ids['start'], ids['end'])
+        for id in id_range:
+            update_display()
             print(f"Processing id: {id}")
-            for category, count in articles_added_counter.items():
-            
-                if page_exists(url):
-                    success, text = get_bbc_article_text(url)
-                    if success:
-                        file_path = make_file_path(category, id)
+            for category in CATEGORIES:
+                url = make_url(category, id)
+                success, text = get_bbc_article_text(url)
+                if success:
+                    file_path = make_file_path(category, id)
+                    if not isfile(file_path):
                         save_text_to_file(text, file_path)
                         articles_added_counter[category] += 1
-    exc
+                    else:
+                        articles_added_counter['ALREADY SAVED'] += 1
+
+    except KeyboardInterrupt:
+        print(f"Program terminated while checking id: {id}")
+        ids['start'] = id
+        with open(JSON_PATH, 'w') as file:
+            json.dump(ids, file)
+        quit()
 
 
 # ====================

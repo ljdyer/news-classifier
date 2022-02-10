@@ -2,7 +2,7 @@ import pickle
 from helper.file_helper import get_text_from_file
 
 count_vector = pickle.load(open('pickles/count_vector.pickle', 'rb'))
-tfidf_transformer = pickle.load(open('pickles/tfidf_transformer.pickle','rb'))
+tfidf_transformer = pickle.load(open('pickles/tfidf_transformer.pickle', 'rb'))
 clf = pickle.load(open('pickles/news_classifier.pickle', 'rb'))
 
 X_test = [get_text_from_file("articles/business-60001147.txt")]
