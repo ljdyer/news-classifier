@@ -1,5 +1,7 @@
-/private/venv/
+**/venv/
+**/__pycache__/
 /private/articles/
-/private/__pycache__/
-/public/venv/
-/public/__pycache__/
+*.pyc
+private/helper/__pycache__/file_helper.cpython-39.pyc
+private/helper/__pycache__/html_helper.cpython-39.pyc
+*.pyc

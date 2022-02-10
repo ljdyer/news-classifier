@@ -1,13 +1,42 @@
-from helper.html_helper import page_exists, get_bs, get_all_text
+"""
+bbc_trial_and_error.py
+
+Module for scraping BBC news articles in desired categories from the BBC
+News website by iterating through possible article ids and checking whether
+an article in any of the desired categories exists at the corresponding URL.
+
+This method has the advantage that it can be left to run in the background
+and could potentially pick up a very large number of articles, however in
+practice it has been found to be very slow as due to the large number of
+categories the hit rate is very low. The method in bbc_from_category_pages.py
+is preferred but this module is left as a backup method to pick up a few extra
+articles every now and then if desired.
+
+How to use:
+1. Just run the program in the terminal as follows (no parameters required).
+   > python bbc_trial_and_error.py
+2. You can exit the program gracefully at any time by pressing Ctrl + C.
+   The program will print a mesage to let you know which id it had checked up
+   to and will update ids_to_check.txt so that it can start off where it left off
+   in the next execution.
+3. Changes to CATEGORIES can be applied directly in the program.
+
+The process is as follows:
+1. Iterate through ids in range.
+2. Create the url that an article belonging to each category with the relevant id
+   would have such an article exists.
+3. If an article exists at the URL, get the text from it.
+4. If a file with the same name does not already exist, create it and inform
+   the user that a new article was added by adding one to the counter for
+   that category.
+"""
+
+from helper.html_helper import page_exists, get_bs, get_bbc_article_text
 from helper.file_helper import save_text_to_file
 import os
 
 URL_ROOT = "https://www.bbc.co.uk/news/"
-make_url = lambda category, id : f"{URL_ROOT}{category}-{id}"
-
 SAVE_ROOT = "articles/"
-make_file_path = lambda category, id : f"{SAVE_ROOT}{category}-{id}.txt"
-
 CATEGORIES = [
     'health',
     'science-environment',
@@ -16,7 +45,22 @@ CATEGORIES = [
     'entertainment-arts'
 ]
 
-CATEGORY_COUNTS = {category: 0 for category in CATEGORIES}
+# ====================
+def make_url(category: str, id: int) -> str:
+    """Return a (possible) URL for an article with the category
+    and id specified."""
+    
+    return f"{URL_ROOT}{category}-{id}"
+
+
+# ====================
+def make_file_path(category: str, id: int) -> str:
+    """Return the path to which to save article text"""
+
+    return f"{SAVE_ROOT}{category}-{id}.txt"
+
+
+articles_added_counter = {category: 0 for category in CATEGORIES}
 
 IDS = range(60044994, 60290065)
 
@@ -27,38 +71,15 @@ def main():
         for id in IDS:
             os.system('cls')
             print(f"Processing id: {id}")
-            for category, count in CATEGORY_COUNTS.items():
-                print(f'{category}: {count}')
-            for category in CATEGORIES:
-                url = make_url(category, id)
+            for category, count in articles_added_counter.items():
+            
                 if page_exists(url):
-                    success, text = get_article_text(url)
+                    success, text = get_bbc_article_text(url)
                     if success:
                         file_path = make_file_path(category, id)
                         save_text_to_file(text, file_path)
-                        CATEGORY_COUNTS[category] += 1
-    except KeyboardInterrupt:
-        print(f"Program terminated while processing id: {id}")
-        quit()
-
-
-# ====================
-def get_article_text(url: str) -> str:
-
-    # Try to get the page HTML
-    try:
-        bs = get_bs(url)
-    except Exception as e:
-        return (False, f'{e} error while getting HTML!')
-
-    # Get text from all <p> tags inside <article> tag
-    try:
-        article = bs.findAll(name='article')
-        article_children = article[0].findChildren("p")
-        article_text = get_all_text(article_children)
-        return (True, article_text)
-    except Exception as e:
-        return (False, f"{e} error while parsing!")
+                        articles_added_counter[category] += 1
+    exc
 
 
 # ====================
