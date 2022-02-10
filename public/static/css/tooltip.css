@@ -1,0 +1,32 @@
+/* Adapted from: https://www.w3schools.com/css/css_tooltip.asp */
+
+/* Tooltip container */
+.category {
+    position: relative;
+}
+
+/* Tooltip text */
+.category .tooltiptext {
+    visibility: hidden;
+    width: 70px;
+    top: 80%;
+    left: 50%;
+    margin-left: -35px;
+    /* Use half of the width (120/2 = 60), to center the tooltip */
+    background-color: transparent;
+    /* border: solid black 1px; */
+    color: inherit;
+    text-align: center;
+    font-size: 12pt;
+    padding: 2px;
+    border-radius: 1px;
+
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    z-index: 1;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.category:hover .tooltiptext {
+    visibility: visible;
+}
