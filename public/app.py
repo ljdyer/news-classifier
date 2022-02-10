@@ -2,14 +2,14 @@ from flask import Flask, render_template, request, jsonify
 import pickle
 
 
-count_vector = pickle.load(open('pickles/count_vector.pickle', 'rb'))
+count_vectorizer = pickle.load(open('pickles/count_vectorizer.pickle', 'rb'))
 tfidf_transformer = pickle.load(open('pickles/tfidf_transformer.pickle','rb'))
-clf = pickle.load(open('pickles/news_classifier.pickle', 'rb'))
+clf = pickle.load(open('pickles/clf.pickle', 'rb'))
 
 
 def get_clf_proba(text: str):
 
-    X_test_counts = count_vector.transform(text)
+    X_test_counts = count_vectorizer.transform(text)
     X_new_tfidf = tfidf_transformer.transform(X_test_counts)
 
     classes = clf.classes_

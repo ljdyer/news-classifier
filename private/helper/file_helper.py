@@ -27,6 +27,8 @@ def get_text_from_file(file_path: str) -> str:
 
 
 # ====================
-def get_file_names(folder_path: str) -> list:
+def get_file_paths(folder_path: str) -> list:
 
-    return [f for f in listdir(folder_path) if isfile(join(folder_path, f))]
+    return [join(folder_path, f)
+            for f in listdir(folder_path)
+            if isfile(join(folder_path, f))]
