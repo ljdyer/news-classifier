@@ -76,7 +76,9 @@ def article_category(article_name: str):
     If it does, return the category as a string. Otherwise, return None."""
 
     for category in CATEGORIES:
-        if category in article_name:
+        # Use startswith to filter out article names like
+        # uk-scotland-scotland-business-60318195
+        if article_name.startswith(category):
             return category
     else:
         return None
@@ -100,7 +102,7 @@ def main():
             link_urls = get_all_link_urls(page)
             for url in link_urls:
                 article_name = url.rpartition('/')[2]
-                if category:= article_category(article_name):
+                if category := article_category(article_name):
                     url = make_url(article_name)
                     success, text = get_bbc_article_text(url)
                     if success:
