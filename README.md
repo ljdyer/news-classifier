@@ -10,7 +10,7 @@ Paste an article from BBC News or another news source, or simply type a few word
 
 The below screenshot was taken after pasting a randomly selected article from business section of the Guardian website. The model correctly predicts that the text is from an article about business, assigning 32.05% probability to the 'business' category.
 
-<a href="https://ljdyer-news-classifier.herokuapp.com/"><img src="readme-img/news-classifier-screenshot.png"></img></a>
+<a href="https://ljdyer-news-classifier.herokuapp.com/"><img src="readme-img/news-classifier-screenshot.PNG"></img></a>
 
 ## How it works
 
