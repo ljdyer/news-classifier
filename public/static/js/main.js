@@ -42,7 +42,7 @@ function writePageInfo(){
             `from the BBC News website that achieved ${modelInfo['accuracy_percent']} ` +
             `accuracy when tested on a sample of ${modelInfo['num_test_files']} articles. ` +
             `Paste an article from BBC News or another news source, or simply type a few words ` +
-            `into the box below to try the model out for yourself.`
+            `into the text area below to try the model out for yourself.`
         $('#page-info').text(pageInfo)
     })
 }
