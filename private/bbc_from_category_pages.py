@@ -23,12 +23,11 @@ The process is as follows:
    that category.
 """
 
-from helper.html_helper import (
-    get_all_link_urls, get_bbc_article_text
-)
-from helper.file_helper import save_text_to_file
 import os
 from os.path import isfile
+
+from helper.file_helper import save_text_to_file
+from helper.html_helper import get_all_link_urls, get_bbc_article_text
 
 URL_ROOT = "https://www.bbc.co.uk/news/"
 SAVE_ROOT = "articles/"

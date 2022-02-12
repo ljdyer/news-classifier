@@ -14,18 +14,18 @@ objects.
 """
 
 
-from helper.file_helper import (
-    get_file_paths, get_text_from_file, get_num_chars
-)
 import json
 import math
 import os
-from os.path import join
 import pickle
 import random
-from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.feature_extraction.text import TfidfTransformer
+from os.path import join
+
+from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 from sklearn.naive_bayes import MultinomialNB
+
+from helper.file_helper import (get_file_paths, get_num_chars,
+                                get_text_from_file)
 
 ARTICLES_PATH = "articles/"
 PRIVATE_PICKLE_PATH = "pickles/"

@@ -18,9 +18,7 @@ The Python files in the private and public directories show the various stages i
 
 ### 1. Getting data
 
-[private/bbc_trial_and_error.py](private/bbc_trial_and_error.py)
-
-[private/bbc_from_category_pages.py](private/bbc_from_category_pages.py)
+[private/bbc_trial_and_error.py](private/bbc_trial_and_error.py)<br>[private/bbc_from_category_pages.py](private/bbc_from_category_pages.py)
 
 I decided to use the BBC News website as my data source and to scrape for articles from the five categories 'business', 'entertainment-arts', 'health', 'science-environment', 'technology'. I tried two different approaches to scraping the site, and getting article URLs from category landing pages emerged as the more efficient method. However I am still only able to get a few extra articles per day for the less common categories using this method, so I would like to spend more time improving it in the future. One avenue to explore is using the selenium library to 'click' through the 'Latest Updates' section on each category landing page.
 

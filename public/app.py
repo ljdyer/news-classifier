@@ -1,4 +1,5 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, jsonify, render_template, request
+
 from get_clf_proba import get_clf_proba
 
 app = Flask(__name__)
