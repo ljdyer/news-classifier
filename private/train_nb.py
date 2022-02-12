@@ -1,3 +1,19 @@
+"""
+train_nb.py
+
+Train a Naive Bayes classifier model with text from articles stored in the
+folder specified in ARTICLES_PATH.
+
+Articles folder is a folder containing files (no subfolders) whose names
+have the following form: {category}-{id}.txt
+
+The program displays outputs information about pre-processing, train and test
+set selection, most informative features, and model accuracy, and finally saves
+model information in JSON format and pickles the trained model and associated
+objects.
+"""
+
+
 from helper.file_helper import (
     get_file_paths, get_text_from_file, get_num_chars
 )
@@ -12,10 +28,11 @@ from sklearn.feature_extraction.text import TfidfTransformer
 from sklearn.naive_bayes import MultinomialNB
 
 ARTICLES_PATH = "articles/"
-TRAIN_TEST_PERCENT = 0.8
 PRIVATE_PICKLE_PATH = "pickles/"
 PUBLIC_PICKLE_PATH = "../public/pickles"
 JSON_PATH = "../public/static/json/model_info.json"
+
+TRAIN_TEST_PERCENT = 0.8
 
 
 # ====================
@@ -120,10 +137,11 @@ def main():
     }
     print(f'Numbers of files in each category: {num_files_by_category}')
 
-    # Take lowest number of articles in a category as the number of articles from each
-    # category to use for training and testing.
+    # Take lowest number of articles in a category as the number of articles
+    # from each category to use for training and testing.
     num_files_per_category = int(min(num_files_by_category.values()))
-    print(f'Using {num_files_per_category} articles per category for training and testing.')
+    print(f'Using {num_files_per_category} articles per category for',
+          'training and testing.')
 
     # Prepare train and test files
     files_by_category = [
@@ -131,10 +149,12 @@ def main():
         for files in files_by_category.values()
     ]
     train_test_split = math.ceil(num_files_per_category * TRAIN_TEST_PERCENT)
-    train_files = flatten([files[:train_test_split] for files in files_by_category])
+    train_files = flatten([files[:train_test_split]
+                          for files in files_by_category])
     num_train_files = len(train_files)
     print(f"Using a total of {num_train_files} articles for training.")
-    test_files = flatten([files[train_test_split:] for files in files_by_category])
+    test_files = flatten([files[train_test_split:]
+                          for files in files_by_category])
     num_test_files = len(test_files)
     print(f"Using a total of {num_test_files} articles for testing.")
     X_train = [get_text_from_file(fp) for fp in train_files]

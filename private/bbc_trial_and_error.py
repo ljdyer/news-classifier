@@ -23,8 +23,8 @@ How to use:
 
 The process is as follows:
 1. Iterate through ids in range.
-2. Create the url that an article belonging to each category with the relevant id
-   would have if such an article exists.
+2. Create the url that an article belonging to each category with the relevant
+   id would have if such an article exists.
 3. If an article exists at the URL, get the text from it.
 4. If a file with the same name does not already exist, create it and inform
    the user that a new article was added by adding one to the counter for
