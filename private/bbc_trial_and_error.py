@@ -19,7 +19,7 @@ How to use:
    The program will print a mesage to let you know which id it had checked up
    to and will update ids_to_check.json so that it can start off where it left
    off in the next execution.
-3. Settings can be changed in the settings file specified in JSON_PATH
+3. Settings can be changed in the settings file specified in CONFIG_JSON
 
 The process is as follows:
 1. Iterate through ids in range.
@@ -38,7 +38,7 @@ from helper.json_helper import load_settings, save_settings
 from helper.file_helper import save_text_to_file
 from helper.html_helper import get_bbc_article_text
 
-JSON_PATH = 'config.json'
+CONFIG_JSON = 'config.json'
 
 
 # ====================
@@ -70,8 +70,8 @@ def update_display(articles_added_counter: dict):
 # ====================
 def main():
 
-    SETTINGS = load_settings(JSON_PATH)
-    CATEGORIES = SETTINGS['CATEGORIES']
+    SETTINGS = load_settings(CONFIG_JSON)
+    CATEGORIES = SETTINGS['BBC_CATEGORIES']
     articles_added_counter = {
         category: 0
         for category in (CATEGORIES + ['ALREADY SAVED'])
@@ -107,8 +107,8 @@ def main():
 
     finally:
         SETTINGS['IDS']['start'] = id
-        save_settings(SETTINGS, JSON_PATH)
-        print(f"Settings saved to {JSON_PATH}.")
+        save_settings(SETTINGS, CONFIG_JSON)
+        print(f"Settings saved to {CONFIG_JSON}.")
 
 
 # ====================

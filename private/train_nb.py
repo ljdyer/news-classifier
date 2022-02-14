@@ -13,23 +13,20 @@ model information in JSON format and pickles the trained model and associated
 objects.
 """
 
-import json
 import math
 import os
 import pickle
 import random
 from os.path import join
+from helper.json_helper import save_settings, load_settings
+from helper.file_helper import get_file_paths, get_num_chars, get_text_from_file
 
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 from sklearn.naive_bayes import MultinomialNB
 
-from helper.file_helper import (get_file_paths, get_num_chars,
-                                get_text_from_file)
-
-ARTICLES_PATH = "articles/"
-PRIVATE_PICKLE_PATH = "pickles/"
-PUBLIC_PICKLE_PATH = "../public/pickles"
-JSON_PATH = "../public/static/json/model_info.json"
+PICKLE_PATH = "../public/pickles"
+MODEL_INFO_JSON = "../public/static/json/model_info.json"
+CONFIG_JSON = 'config.json'
 
 TRAIN_TEST_PERCENT = 0.8
 
@@ -55,8 +52,7 @@ def save_model_info(num_train_files, num_test_files, accuracy_percent):
         'num_test_files': num_test_files,
         'accuracy_percent': accuracy_percent
     }
-    with open(JSON_PATH, 'w') as file:
-        json.dump(model_info, file)
+    save_settings(model_info, MODEL_INFO_JSON)
 
 
 # ====================
@@ -69,7 +65,7 @@ def remove_small_files(folder_path, min_chars=1000):
     file_paths = get_file_paths(folder_path)
     removed_count = 0
     for file in file_paths:
-        if get_num_chars(file) < 1000:
+        if get_num_chars(file) < min_chars:
             os.remove(file)
             removed_count += 1
     return removed_count
@@ -123,13 +119,20 @@ def print_most_informative_features(vectorizer, clf, n=10):
 # ====================
 def main():
 
+    SETTINGS = load_settings(CONFIG_JSON)
+    MY_CATEGORIES = SETTINGS['MY_CATEGORIES']
+    ARTICLES_PATH = SETTINGS['SAVE_ROOT']
+
     # Remove files less than 1000 characters
     num_removed = remove_small_files(ARTICLES_PATH, 1000)
     print(f"Removed {num_removed} files containing less than 1000 characters")
 
     # Sort files into categories and get number of articles in each
     file_paths = get_file_paths(ARTICLES_PATH)
-    categories_and_files = [(category_from_path(fp), fp) for fp in file_paths]
+    categories_and_files = [
+        (MY_CATEGORIES[category_from_path(fp)], fp)
+        for fp in file_paths
+    ]
     files_by_category = sort_into_dict(categories_and_files)
     num_files_by_category = {
         category: len(files) for category, files in files_by_category.items()
@@ -157,9 +160,9 @@ def main():
     num_test_files = len(test_files)
     print(f"Using a total of {num_test_files} articles for testing.")
     X_train = [get_text_from_file(fp) for fp in train_files]
-    y_train = [category_from_path(fp) for fp in train_files]
+    y_train = [MY_CATEGORIES[category_from_path(fp)] for fp in train_files]
     X_test = [get_text_from_file(fp) for fp in test_files]
-    y_test = [category_from_path(fp) for fp in test_files]
+    y_test = [MY_CATEGORIES[category_from_path(fp)] for fp in test_files]
 
     # Train Naive Bayes classifier
     count_vectorizer = CountVectorizer(stop_words='english')
@@ -190,10 +193,7 @@ def main():
 
     # Pickle model and save model info to JSON file
     pickle_to_path(
-        count_vectorizer, tfidf_transformer, clf, PRIVATE_PICKLE_PATH
-    )
-    pickle_to_path(
-        count_vectorizer, tfidf_transformer, clf, PUBLIC_PICKLE_PATH
+        count_vectorizer, tfidf_transformer, clf, PICKLE_PATH
     )
     save_model_info(
         num_train_files, num_test_files, accuracy_percent

@@ -6,6 +6,13 @@
         "technology",
         "entertainment-arts"
     ],
+    "MY_CATEGORIES": {
+        "health": "health",
+        "science-environment": "science-technology",
+        "business": "business",
+        "technology": "science-technology",
+        "entertainment-arts": "entertainment-arts"
+    },
     "IDS": {
         "end": 60290065,
         "start": 60054307
