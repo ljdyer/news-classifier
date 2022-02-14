@@ -10,8 +10,7 @@ How to use:
 2. You can exit the program gracefully at any time by pressing Ctrl + C.
    The program will exit with a message to let you know which category page
    it was scraping.
-3. Changes to CATEGORIES and CATEGORY_PAGES can be applied directly in the
-   program.
+3. Settings can be changed in the settings file specified in JSON_PATH
 
 The process is as follows:
 1. For each category url specified in CATEGORY_PAGES, get all link targets

@@ -19,7 +19,7 @@ How to use:
    The program will print a mesage to let you know which id it had checked up
    to and will update ids_to_check.json so that it can start off where it left
    off in the next execution.
-3. Changes to CATEGORIES can be applied directly in the program.
+3. Settings can be changed in the settings file specified in JSON_PATH
 
 The process is as follows:
 1. Iterate through ids in range.
