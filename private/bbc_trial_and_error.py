@@ -31,68 +31,63 @@ The process is as follows:
    that category.
 """
 
-import json
 import os
 from os.path import isfile
 
+from helper.json_helper import load_settings, save_settings
 from helper.file_helper import save_text_to_file
 from helper.html_helper import get_bbc_article_text
 
-URL_ROOT = "https://www.bbc.co.uk/news/"
-SAVE_ROOT = "articles/"
-CATEGORIES = [
-    'health',
-    'science-environment',
-    'business',
-    'technology',
-    'entertainment-arts'
-]
-JSON_PATH = 'ids_to_check.json'
-
-articles_added_counter = {
-    category: 0 for category in CATEGORIES + ['ALREADY SAVED']
-}
+JSON_PATH = 'config.json'
 
 
 # ====================
-def make_url(category: str, id: int) -> str:
+def make_url(url_root: str, category: str, id: int) -> str:
     """Return a (possible) URL for an article with the category
     and id specified."""
 
-    return f"{URL_ROOT}{category}-{id}"
+    return f"{url_root}{category}-{id}"
 
 
 # ====================
-def make_file_path(category: str, id: int) -> str:
+def make_file_path(save_root: str, category: str, id: int) -> str:
     """Return the path to which to save article text"""
 
-    return f"{SAVE_ROOT}{category}-{id}.txt"
+    return f"{save_root}{category}-{id}.txt"
 
 
 # ====================
-def update_display():
+def update_display(articles_added_counter: dict):
     """Update the display with the counters of articles added for each
     category."""
 
     os.system('cls')
+
     for category, count in articles_added_counter.items():
         print(f'{category}: {count}')
 
 
 # ====================
 def main():
+
+    SETTINGS = load_settings(JSON_PATH)
+    CATEGORIES = SETTINGS['CATEGORIES']
+    articles_added_counter = {
+        category: 0
+        for category in (CATEGORIES + ['ALREADY SAVED'])
+    }
+
     try:
-        with open(JSON_PATH, 'r') as file:
-            ids = json.load(file)
-        id_range = range(ids['start'], ids['end'])
-        for id in id_range:
-            update_display()
+        for id in range(SETTINGS['IDS']['start'], SETTINGS['IDS']['end']):
+            update_display(articles_added_counter)
             print(f"Processing id: {id}")
             for category in CATEGORIES:
-                url = make_url(category, id)
+                url = make_url(SETTINGS['URL_ROOT'], category, id)
                 success, text = get_bbc_article_text(url)
                 if success:
-                    file_path = make_file_path(category, id)
+                    file_path = make_file_path(
+                        SETTINGS['SAVE_ROOT'], category, id
+                    )
                     if not isfile(file_path):
                         save_text_to_file(text, file_path)
                         articles_added_counter[category] += 1
@@ -100,11 +95,20 @@ def main():
                         articles_added_counter['ALREADY SAVED'] += 1
 
     except KeyboardInterrupt:
-        print(f"Program terminated while checking id: {id}")
-        ids['start'] = id
-        with open(JSON_PATH, 'w') as file:
-            json.dump(ids, file)
-        quit()
+        print("You terminated the program while it was checking",
+              f"ID: {id}")
+
+    except Exception as e:
+        print(f"The program terminated due to a <<<{e}>>> error",
+              f"while it was checking ID: {id}")
+
+    else:
+        print("Finished checking all IDs!")
+
+    finally:
+        SETTINGS['IDS']['start'] = id
+        save_settings(SETTINGS, JSON_PATH)
+        print(f"Settings saved to {JSON_PATH}.")
 
 
 # ====================

@@ -1,0 +1,25 @@
+{
+    "CATEGORIES": [
+        "health",
+        "science-environment",
+        "business",
+        "technology",
+        "entertainment-arts"
+    ],
+    "IDS": {
+        "end": 60290065,
+        "start": 60054307
+    },
+    "SAVE_ROOT": "articles/",
+    "URL_ROOT": "https://www.bbc.co.uk/news/",
+    "CATEGORY_PAGES": [
+        "https://www.bbc.co.uk/news",
+        "https://www.bbc.co.uk/news/coronavirus",
+        "https://www.bbc.co.uk/news/science-environment-56837908",
+        "https://www.bbc.co.uk/news/business",
+        "https://www.bbc.co.uk/news/technology",
+        "https://www.bbc.co.uk/news/science_and_environment",
+        "https://www.bbc.co.uk/news/health",
+        "https://www.bbc.co.uk/news/entertainment_and_arts"
+    ]
+}

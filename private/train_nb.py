@@ -13,7 +13,6 @@ model information in JSON format and pickles the trained model and associated
 objects.
 """
 
-
 import json
 import math
 import os
