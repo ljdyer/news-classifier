@@ -1,24 +1,11 @@
 {
-    "CATEGORIES": [
+    "BBC_CATEGORIES": [
         "health",
         "science-environment",
         "business",
         "technology",
         "entertainment-arts"
     ],
-    "MY_CATEGORIES": {
-        "health": "health",
-        "science-environment": "science-technology",
-        "business": "business",
-        "technology": "science-technology",
-        "entertainment-arts": "entertainment-arts"
-    },
-    "IDS": {
-        "end": 60290065,
-        "start": 60054307
-    },
-    "SAVE_ROOT": "articles/",
-    "URL_ROOT": "https://www.bbc.co.uk/news/",
     "CATEGORY_PAGES": [
         "https://www.bbc.co.uk/news",
         "https://www.bbc.co.uk/news/coronavirus",
@@ -28,5 +15,18 @@
         "https://www.bbc.co.uk/news/science_and_environment",
         "https://www.bbc.co.uk/news/health",
         "https://www.bbc.co.uk/news/entertainment_and_arts"
-    ]
+    ],
+    "IDS": {
+        "end": 60290065,
+        "start": 60054309
+    },
+    "MY_CATEGORIES": {
+        "business": "business",
+        "entertainment-arts": "entertainment-arts",
+        "health": "health",
+        "science-environment": "science-technology",
+        "technology": "science-technology"
+    },
+    "SAVE_ROOT": "articles/",
+    "URL_ROOT": "https://www.bbc.co.uk/news/"
 }

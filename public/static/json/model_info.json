@@ -1,5 +1,5 @@
 {
-    "accuracy_percent": "92.86%",
-    "num_test_files": 28,
+    "accuracy_percent": "90.62%",
+    "num_test_files": 32,
     "num_train_files": 128
 }
