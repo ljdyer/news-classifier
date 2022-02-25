@@ -6,7 +6,7 @@ This project came about following a University homework exercise to create a sim
 
 Go to https://ljdyer-news-classifier.herokuapp.com/.
 
-Paste an article from BBC News or another news source, or simply type a few words into the text area and watch the category labels at the top of the page change in size to reflect the probability of the text belonging to each category.
+Paste an article from BBC News or another news source, or simply type a few words into the text area and watch the category labels at the top of the page change in size to reflect the probability of the text belonging to each category according to the model.
 
 The below screenshot was taken after pasting a randomly selected article from the business section of the Guardian website. The model correctly predicts that the text is from an article about business, assigning 32.05% probability to the 'business' category.
 
@@ -20,7 +20,7 @@ The Python files in the private and public directories show the various stages i
 
 [private/bbc_trial_and_error.py](private/bbc_trial_and_error.py)<br>[private/bbc_from_category_pages.py](private/bbc_from_category_pages.py)
 
-I decided to use the BBC News website as my data source and to scrape for articles from the five categories 'business', 'entertainment-arts', 'health', 'science-environment', 'technology'. I later grouped 'science-environment' and 'technology' into a single category, 'science-technology', for training and prediction due to the scarcity of articles in the 'technology' category. I tried two different approaches to scraping the site, and getting article URLs from category landing pages emerged as the more efficient method. However I am still only able to get a few extra articles per day for the less common categories using this method, so I would like to spend more time improving it in the future. One avenue to explore is using the selenium library to 'click' through the 'Latest Updates' section on each category landing page.
+I decided to use the BBC News website as my data source and to scrape for articles from the five categories 'business', 'entertainment-arts', 'health', 'science-environment', 'technology'. I later grouped 'science-environment' and 'technology' into a single category, 'science-technology', for training and prediction due to the scarcity of articles in the 'technology' category. I tried two different approaches to scraping the site, and getting article URLs from category landing pages came out on top as the more efficient method.
 
 ### 2. Training the model
 
@@ -38,7 +38,7 @@ get_clf_proba.py provides the API for getting probabilities for each class (cate
 
 [public/app.py](public/app.py)
 
-The UI is based around a Flask app that returns class probabilities in response to requests from the webpage to run the model on text input by the user in the text area.
+The UI is based around a Flask app that returns class probabilities in response to requests from the webpage to run the model on text input entered into the text area by the user. 
 
 ## Credits
 
